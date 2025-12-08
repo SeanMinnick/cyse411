@@ -8,11 +8,6 @@ const bcrypt = require("bcrypt");
 const app = express();
 const PORT = 3001;
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(cookieParser());
-app.use(express.static("public"));
-
 app.use((req, res, next) => {
   res.set(
     "Content-Security-Policy",
@@ -21,6 +16,10 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(express.static("public"));
 
 /**
  * VULNERABLE FAKE USER DB
