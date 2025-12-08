@@ -14,6 +14,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: show repo layout
+        run: |
+          echo "PWD:"
+          pwd
+          echo
+          echo "top level"
+          ls
+          echo
+          echo "find server.js"
+          find . -maxdepth 4 -type f -name "server.js" -print
+
       - name: Show server.js
         run: |
           echo "fastbank-auth-lab/src/server.js"
