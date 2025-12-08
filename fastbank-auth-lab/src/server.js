@@ -13,6 +13,15 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static("public"));
 
+app.use((req, res, next) => {
+  res.set(
+    "Content-Security-Policy",
+    "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+  );
+  next();
+});
+
+
 /**
  * VULNERABLE FAKE USER DB
  * For simplicity, we start with a single user whose password is "password123".
