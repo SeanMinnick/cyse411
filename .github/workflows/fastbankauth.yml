@@ -29,6 +29,12 @@ jobs:
           npm start &
           # wait for the server to boot
           sleep 20
+      - name: Check app headers debug
+        run: |
+          echo "headers for /"
+          curl -I http://localhost:3001/ || echo "curl failed"
+          echo "headers for /robot"
+          curl -I http://localhost:3001/robots.txt || echo "curl failed"
       - name: Run OWASP ZAP full scan
         uses: zaproxy/action-full-scan@v0.13.0
         with:
