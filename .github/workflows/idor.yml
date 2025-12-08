@@ -1,5 +1,5 @@
 
-name: DAST - OWASP ZAP Full Scan
+name: DAST - OWASP idor
 
 on:
   workflow_dispatch:  # run manually from Actions tab
