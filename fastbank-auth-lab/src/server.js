@@ -111,6 +111,15 @@ app.post("/api/logout", (req, res) => {
   res.json({ success: true });
 });
 
+app.use((req, res) => {
+  res.status(404);
+  res.set(
+    "Content-Security-Policy",
+    "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"
+  );
+  res.send("Not found");
+});
+
 app.listen(PORT, () => {
   console.log(`FastBank Auth Lab running at http://localhost:${PORT}`);
 });
