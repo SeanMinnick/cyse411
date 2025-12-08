@@ -28,7 +28,7 @@ jobs:
       - name: Show server.js
         run: |
           echo "fastbank-auth-lab/src/server.js"
-          sed -n '1,200p' fastbank-auth-lab/server.js
+          sed -n '1,200p' fastbank-auth-lab/src/server.js
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
