@@ -16,7 +16,7 @@ jobs:
 
       - name: Show server.js
         run: |
-          echo "fastbank-auth-lab/server.js"
+          echo "fastbank-auth-lab/src/server.js"
           sed -n '1,200p' fastbank-auth-lab/server.js
 
       - name: Set up Node.js
