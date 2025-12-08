@@ -8,14 +8,6 @@ const bcrypt = require("bcrypt");
 const app = express();
 const PORT = 3001;
 
-app.use((req, res, next) => {
-  res.set(
-    "Content-Security-Policy",
-    "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"
-  );
-  next();
-});
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -109,6 +101,24 @@ app.post("/api/logout", (req, res) => {
   }
   res.clearCookie("session");
   res.json({ success: true });
+});
+
+app.use((req, res, next) => {
+  res.removeHeader("Content-Security-Policy");
+  res.set(
+    "Content-Security-Policy",
+    [
+      "default-src 'self'",
+      "script-src 'self'",
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data:",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "frame-ancestors 'none'",
+      "form-action 'self'"
+    ].join("; ")
+  );
+  next();
 });
 
 app.listen(PORT, () => {
