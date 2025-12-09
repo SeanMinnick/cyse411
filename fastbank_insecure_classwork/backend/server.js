@@ -7,6 +7,16 @@ const crypto = require("crypto");
 
 const app = express();
 
+app.disable("x-powered-by");
+
+app.use((req, res, next) => {
+  res.set(
+    "Content-Security-Policy",
+    "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"
+  );
+  next();
+});
+
 // --- BASIC CORS (clean, not vulnerable) ---
 app.use(
   cors({
@@ -163,6 +173,20 @@ app.post("/change-email", auth, (req, res) => {
   db.run(sql, () => {
     res.json({ success: true, email: newEmail });
   });
+});
+
+app.use((req, res) => {
+  res.status(404);
+  res.set(
+    "Content-Security-Policy",
+    "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"
+  );
+  res.set(
+    "Permissions-Policy",
+    "camera=(), microphone=(), geolocation=(), fullscreen=(self)"
+  );
+
+  res.send("Not found");
 });
 
 // ------------------------------------------------------------
