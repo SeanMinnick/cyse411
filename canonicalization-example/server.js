@@ -13,6 +13,13 @@ app.use((req, res, next) => {
     "Content-Security-Policy",
     "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"
   );
+  res.set("Cross-Origin-Resource-Policy", "same-origin");
+  res.set("Cross-Origin-Embedder-Policy", "require-corp");
+  res.set(
+    "Permissions-Policy",
+    "camera=(), microphone=(), geolocation=(), fullscreen=(self)"
+  );
+  res.set("X-Content-Type-Options", "nosniff");
   next();
 });
 
