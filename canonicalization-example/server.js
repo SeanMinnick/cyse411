@@ -5,6 +5,17 @@ const fs = require('fs');
 const { body, validationResult } = require('express-validator');
 
 const app = express();
+
+app.disable("x-powered-by");
+
+app.use((req, res, next) => {
+  res.set(
+    "Content-Security-Policy",
+    "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"
+  );
+  next();
+});
+
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -71,6 +82,20 @@ app.post('/setup-sample', (req, res) => {
     fs.writeFileSync(p, samples[k], 'utf8');
   });
   res.json({ ok: true, base: BASE_DIR });
+});
+
+app.use((req, res) => {
+  res.status(404);
+  res.set(
+    "Content-Security-Policy",
+    "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'"
+  );
+  res.set(
+    "Permissions-Policy",
+    "camera=(), microphone=(), geolocation=(), fullscreen=(self)"
+  );
+
+  res.send("Not found");
 });
 
 // Only listen when run directly (not when imported by tests)
